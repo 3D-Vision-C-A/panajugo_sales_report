@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="pj_report">
+    <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+            <div>
+                <h1 class="text-center mb-4">Reporte de Ventas</h1>
+            </div>
+            <div>
+                <table class="table table-bordered small">
+                    <thead>
+                        <tr class="text-center">
+                            <th class="align-middle">N° Fiscal</th>
+                            <th class="align-middle">N°</th>
+                            <th class="align-middle">Tipo</th>
+                            <th class="align-middle">Fecha</th>
+                            <th class="align-middle">Nombre del Cliente</th>
+                            <th class="align-middle">Producto</th>
+                            <th class="align-middle">Cantidad</th>
+                            <th class="align-middle">Monto Facturado</th>
+                            <th class="align-middle">Origen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <t t-set="total" t-value="0"/>
+
+                        <t t-foreach="docs" t-as="invoice">
+                            <tr t-foreach="invoice.invoice_line_ids" t-as="line" class="text-center">
+                                <!-- <td class="align-middle"><span t-esc="invoice.f_document_number"/></td> -->
+                                <td class="align-middle"><span t-esc="invoice_index + 1"/></td>
+                                <td class="align-middle"><span t-esc="'Pagada' if invoice.payment_state == 'paid' else 'No pagada'"/></td>
+                                <td class="align-middle"><span t-esc="invoice.invoice_date.strftime('%d/%m/%Y')"/></td>
+                                <td class="align-middle"><span t-esc="invoice.partner_id.name"/></td>
+                                <td class="align-middle"><span t-esc="line.name"/></td>
+                                <td class="align-middle"><span t-esc="line.quantity"/></td>
+                                <td class="align-middle text-left"><span t-esc="line.price_total" t-options="{'widget': 'monetary', 'display_currency': invoice.currency_id}"/></td>
+                                <!-- <td class="align-middle"><span t-esc=""/></td> -->
+
+                                <t t-set="total" t-value="total + line.price_total"/>
+                            </tr>
+                        </t>
+                        <tr class="text-right">
+                            <td colspan="7"><b>TOTAL</b></td>
+                            <td><b><span t-esc="total" t-options="{'widget': 'monetary', 'display_currency': invoice.currency_id}"/></b></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </t>
+</template>
+
+</odoo>

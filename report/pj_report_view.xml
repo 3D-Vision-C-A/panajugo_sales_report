@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_pj_report" model="ir.actions.report">
+        <field name="name">Reporte de ventas Diarias</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">panajugo_sales_report.pj_report</field>
+        <field name="report_file">pj.report</field>
+        <field name="multi">True</field>
+        <field name="print_report_name">'Reporte de Ventas - {object.fields.Date.today()}'</field>
+    </record>
+
+
+</odoo>
